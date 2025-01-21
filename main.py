@@ -2,8 +2,12 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from llama_cpp import Llama
 import uvicorn
+from scripts.monitor import monitoring_middleware
 
 app = FastAPI()
+
+# Add the monitoring middleware
+app.middleware("http")(monitoring_middleware)
 
 # Path to your GGUF model file
 model_path = r"models/SQL_GEN_unsloth.Q8_0.gguf"
