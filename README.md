@@ -1,4 +1,3 @@
-Here’s a **README.md** file for your end-to-end project, complete with emojis to make it visually appealing and easy to read. This README covers all the features, including GitHub Actions, Docker, CI/CD, and more.
 
 ---
 
