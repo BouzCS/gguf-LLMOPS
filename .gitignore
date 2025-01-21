@@ -35,7 +35,6 @@ models/SQL_GEN_unsloth.Q8_0.gguf
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
-models/
 # Unit test / coverage reports
 htmlcov/
 .tox/
