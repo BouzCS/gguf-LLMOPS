@@ -3,11 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-prometheus\data
-prometheus\LICENSE
-prometheus\NOTICE
-prometheus\prometheus.exe
-prometheus\promtool.exe
+prometheus/data
+prometheus/LICENSE
+prometheus/NOTICE
+prometheus/prometheus.exe
+prometheus/promtool.exe
+prometheus/data/lock
 
 # C extensions
 *.so

@@ -1,0 +1,28 @@
+name: Docker CI/CD Pipeline
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build Docker images
+        run: |
+          docker build -t sql-query-generator-api -f docker/Dockerfile.api .
+          docker build -t sql-query-generator-monitor -f docker/Dockerfile.monitor .
+
+      - name: Run tests
+        run: |
+          docker run sql-query-generator-api pytest
+          docker run sql-query-generator-monitor pytest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Deploy to production
+        run: |
+          docker-compose up -d

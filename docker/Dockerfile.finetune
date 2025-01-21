@@ -1,0 +1,17 @@
+# Use an official Python runtime as the base image
+FROM python:3.9-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the requirements file and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the fine-tuning script and data
+COPY scripts/finetune_model.py .
+COPY data/ /app/data/
+COPY models/ /app/models/
+
+# Run the fine-tuning script
+CMD ["python", "finetune_model.py"]

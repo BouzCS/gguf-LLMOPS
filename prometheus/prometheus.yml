@@ -1,0 +1,26 @@
+# Global configuration
+global:
+  scrape_interval: 15s  # How often to scrape metrics
+  evaluation_interval: 15s  # How often to evaluate alert rules
+
+# Alerting configuration (for Alertmanager)
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['localhost:9093']  # Replace with your Alertmanager address
+
+# Rule files for alerting
+rule_files:
+  - "alert.rules.yml"  # Path to your alert rules file
+
+# Scrape configurations (for collecting metrics)
+scrape_configs:
+  # Scrape metrics from the FastAPI app
+  - job_name: 'llmgguf_monitor_app'
+    static_configs:
+      - targets: ['localhost:8000']  # Replace with your FastAPI app's address
+
+  # Scrape metrics from Prometheus itself (optional)
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']

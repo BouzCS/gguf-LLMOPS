@@ -1,0 +1,32 @@
+groups:
+  - name: api_alerts
+    rules:
+      # Alert for high error rate
+      - alert: HighErrorRate
+        expr: sum(rate(api_error_count[1m])) by (endpoint) > 0.05  # Error rate > 5%
+        for: 5m  # Trigger after 5 minutes
+        labels:
+          severity: critical
+        annotations:
+          summary: "High error rate on {{ $labels.endpoint }}"
+          description: "Error rate for {{ $labels.endpoint }} is above 5%."
+
+      # Alert for high latency
+      - alert: HighLatency
+        expr: histogram_quantile(0.95, sum(rate(api_request_latency_seconds_bucket[1m])) by (le, endpoint)) > 2  # Latency > 2 seconds
+        for: 5m  # Trigger after 5 minutes
+        labels:
+          severity: warning
+        annotations:
+          summary: "High latency on {{ $labels.endpoint }}"
+          description: "95th percentile latency for {{ $labels.endpoint }} is above 2 seconds."
+
+      # Alert for low request rate (optional)
+      - alert: LowRequestRate
+        expr: sum(rate(api_request_count[1m])) by (endpoint) < 1  # Request rate < 1 request per second
+        for: 10m  # Trigger after 10 minutes
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low request rate on {{ $labels.endpoint }}"
+          description: "Request rate for {{ $labels.endpoint }} is below 1 request per second."

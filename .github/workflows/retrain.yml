@@ -1,0 +1,32 @@
+name: Retrain Model
+on:
+  schedule:
+    - cron: "0 0 * * 0"  # Run every Sunday at midnight
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run fine-tuning script
+        run: python scripts/finetune_model.py
+
+      - name: Commit and push updated model
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add models/finetuned_sql_model
+          git commit -m "Automated model retraining"
+          git push
